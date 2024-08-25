@@ -16,4 +16,19 @@ public class ScheduleService {
                 .map(indexList -> indexList.stream().map(lessonList::get).toList()).toList();
     }
 
+    public List<List<Lesson>> buildSchedules(Integer min, Integer max) {
+
+    }
+
+    private Boolean hasConflict(List<Lesson> lessonList) {
+
+    }
+
+    private Boolean hasOneReligiousLesson(List<Lesson> lessonList) {
+
+    }
+
+    private Boolean existsRepetition(List<Lesson> lessonList) {
+
+    }
 }
