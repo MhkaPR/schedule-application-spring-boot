@@ -1,5 +1,6 @@
 package ir.mhkapr.myscheduleapp.services;
 
+import ir.mhkapr.myscheduleapp.DTOs.SubmitDataResponse;
 import ir.mhkapr.myscheduleapp.objects.Lesson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -41,12 +42,15 @@ public class ScheduleService {
     }
 
 
-    public List<List<Lesson>> buildSchedules(Integer min, Integer max, List<Lesson> lessonList) {
+    public SubmitDataResponse buildSchedules(Integer min, Integer max, List<Lesson> lessonList) {
         List<List<Lesson>> listOfSuggestedPlans = powerSet(lessonList, min, max);
-        return listOfSuggestedPlans.stream().filter(x -> {
-            return !(hasConflict(x) || existsRepetition(x) || hasManyReligiousLessons(x));
-        }).toList();
-
+        return SubmitDataResponse.builder()
+                .schedules(listOfSuggestedPlans.stream()
+                        .filter(x -> {
+                            return !(hasConflict(x) || existsRepetition(x) || hasManyReligiousLessons(x));
+                        })
+                        .toList())
+                .build();
     }
 
     private Boolean hasConflict(List<Lesson> lessonList) {
