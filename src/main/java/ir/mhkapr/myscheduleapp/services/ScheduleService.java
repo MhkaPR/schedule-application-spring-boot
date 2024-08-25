@@ -9,6 +9,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
+
     private List<List<Lesson>> powerSet(List<Lesson> lessonList, Integer min, Integer max) {
         SetService setService = new SetService(lessonList);
         List<List<Integer>> ListOfIndexPlans = setService.calculateByRange(min, max);
@@ -16,7 +17,11 @@ public class ScheduleService {
                 .map(indexList -> indexList.stream().map(lessonList::get).toList()).toList();
     }
 
-    public List<List<Lesson>> buildSchedules(Integer min, Integer max) {
+    public List<List<Lesson>> buildSchedules(Integer min, Integer max, List<Lesson> lessonList) {
+        List<List<Lesson>> listOfSuggestedPlans = powerSet(lessonList, min, max);
+        return listOfSuggestedPlans.stream().filter(x -> {
+            return !(hasConflict(x) || existsRepetition(x) || hasManyReligiousLessons(x));
+        }).toList();
 
     }
 
@@ -24,7 +29,7 @@ public class ScheduleService {
 
     }
 
-    private Boolean hasOneReligiousLesson(List<Lesson> lessonList) {
+    private Boolean hasManyReligiousLessons(List<Lesson> lessonList) {
 
     }
 
