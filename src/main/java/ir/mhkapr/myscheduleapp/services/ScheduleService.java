@@ -26,7 +26,17 @@ public class ScheduleService {
     }
 
     private Boolean hasConflict(List<Lesson> lessonList) {
-
+        Boolean sw = false;
+        for (int i = 0; i < lessonList.size(); i++) {
+            for (int j = i + 1; j < lessonList.size(); j++) {
+                sw = doLessonsOverlap(lessonList.get(i), lessonList.get(j));
+                if (sw) {
+                    i = lessonList.size();
+                    break;
+                }
+            }
+        }
+        return sw;
     }
 
     private Boolean doLessonsOverlap(Lesson lesson1, Lesson lesson2) {
