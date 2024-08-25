@@ -29,6 +29,6 @@ public class ScheduleService {
     }
 
     private Boolean existsRepetition(List<Lesson> lessonList) {
-
+        return lessonList.stream().map(Lesson::getName).distinct().count() != lessonList.size();
     }
 }
