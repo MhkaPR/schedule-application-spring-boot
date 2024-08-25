@@ -4,18 +4,42 @@ import ir.mhkapr.myscheduleapp.objects.Lesson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ScheduleService {
 
-    private List<List<Lesson>> powerSet(List<Lesson> lessonList, Integer min, Integer max) {
-        SetService setService = new SetService(lessonList);
-        List<List<Integer>> ListOfIndexPlans = setService.calculateByRange(min, max);
-        return ListOfIndexPlans.stream()
-                .map(indexList -> indexList.stream().map(lessonList::get).toList()).toList();
+    private List<List<Lesson>> powerSet(List<Lesson> lessonList, Integer minUnits, Integer maxUnits) {
+        int n = lessonList.size();
+        List<List<Lesson>> result = new LinkedList<>();
+
+        // آرایه بولین برای نشان دادن عضویت درس در زیرمجموعه
+        boolean[] subset = new boolean[n];
+
+        // حلقه بیرونی: بررسی تمام حالت‌های ممکن برای زیرمجموعه‌ها
+        for (int i = 0; i < (1 << n); i++) {
+            int currentSum = 0;
+            List<Lesson> currentSubset = new LinkedList<>();
+
+            // محاسبه مجموع واحدهای زیرمجموعه فعلی
+            for (int j = 0; j < n; j++) {
+                if ((i & (1 << j)) > 0) {
+                    currentSum += lessonList.get(j).getUnit();
+                    currentSubset.add(lessonList.get(j));
+                }
+            }
+
+            // بررسی محدوده و اضافه کردن زیرمجموعه به نتیجه
+            if (currentSum >= minUnits && currentSum <= maxUnits) {
+                result.add(new LinkedList<>(currentSubset));
+            }
+        }
+
+        return result;
     }
+
 
     public List<List<Lesson>> buildSchedules(Integer min, Integer max, List<Lesson> lessonList) {
         List<List<Lesson>> listOfSuggestedPlans = powerSet(lessonList, min, max);
