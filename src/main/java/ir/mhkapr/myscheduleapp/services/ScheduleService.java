@@ -30,7 +30,7 @@ public class ScheduleService {
     }
 
     private Boolean hasManyReligiousLessons(List<Lesson> lessonList) {
-
+        return lessonList.stream().filter(Lesson::getIsReligious).count() > 1;
     }
 
     private Boolean existsRepetition(List<Lesson> lessonList) {
