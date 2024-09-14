@@ -13,7 +13,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubmitDataRequest {
-    private Integer min;
-    private Integer max;
+    private Integer unit;
     private List<Lesson> lessons;
 }
