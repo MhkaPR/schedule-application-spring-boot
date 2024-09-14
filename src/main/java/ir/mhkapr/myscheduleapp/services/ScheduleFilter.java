@@ -19,11 +19,13 @@ public class ScheduleFilter implements Callable<List<List<Lesson>>> {
     BigInteger floor;
     BigInteger ceil;
     List<Lesson> lessons;
+    int unitSum;
 
-    public ScheduleFilter(BigInteger floor, BigInteger ceil, List<Lesson> lessons) {
+    public ScheduleFilter(BigInteger floor, BigInteger ceil, int unitSum, List<Lesson> lessons) {
         this.floor = floor;
         this.ceil = ceil;
         this.lessons = lessons;
+        this.unitSum = unitSum;
     }
 
     @Override
@@ -53,6 +55,7 @@ public class ScheduleFilter implements Callable<List<List<Lesson>>> {
 
         return !(LessonFilterUtil.hasConflict(subSetList) ||
                 LessonFilterUtil.hasManyReligiousLessons(subSetList) ||
-                LessonFilterUtil.existsRepetition(subSetList)) ? subSetList : null;
+                LessonFilterUtil.existsRepetition(subSetList) ||
+                LessonFilterUtil.hasUnit(5, subSetList)) ? subSetList : null;
     }
 }

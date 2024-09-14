@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Controller
 @RequiredArgsConstructor
@@ -23,14 +24,15 @@ public class scheduleController {
     private final CsvToLessonConvertorService csvToLessonConverter;
 
     @PostMapping("/submit-data")
-    public ResponseEntity<SubmitDataResponse> submitData(@RequestBody SubmitDataRequest request) {
+    public ResponseEntity<SubmitDataResponse> submitData(@RequestBody SubmitDataRequest request)
+            throws ExecutionException, InterruptedException {
         return ResponseEntity.ok(scheduleService
                 .buildSchedules(request.getUnit(), request.getLessons()));
     }
 
     @GetMapping("/convert")
     public ResponseEntity<SubmitDataResponse> convertCsvToJson(@RequestParam String filePath)
-            throws IOException, CsvValidationException {
+            throws IOException, CsvValidationException, ExecutionException, InterruptedException {
         List<Lesson> lessons = csvToLessonConverter.convertCsvToLessons(filePath);
         return ResponseEntity.ok(scheduleService
                 .buildSchedules(15, lessons));
