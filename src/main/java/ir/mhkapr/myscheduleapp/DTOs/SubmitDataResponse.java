@@ -13,5 +13,5 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SubmitDataResponse {
-    private List<List<Lesson>> schedules;
+    private List<Lesson[]> schedules;
 }

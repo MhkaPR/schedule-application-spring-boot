@@ -21,7 +21,14 @@ public class LessonFilterUtil {
         return sw;
     }
 
-    private static Boolean doLessonsOverlap(Lesson lesson1, Lesson lesson2) {
+    public static Boolean doLessonsOverLap(Lesson lessonForCheck, List<Lesson> lessonList) {
+        for (Lesson lesson : lessonList) {
+            if (doLessonsOverlap(lesson, lessonForCheck)) return false;
+        }
+        return true;
+    }
+
+    public static Boolean doLessonsOverlap(Lesson lesson1, Lesson lesson2) {
 
         //first by first
         if (lesson1.getDay1().equals(lesson2.getDay1())) {
@@ -66,7 +73,8 @@ public class LessonFilterUtil {
         return hasConflictLabTime(lesson1, lesson2);
     }
 
-    private static Boolean hasConflictLabTime(Lesson lesson1, Lesson lesson2) {
+    public
+    static Boolean hasConflictLabTime(Lesson lesson1, Lesson lesson2) {
         if (!lesson1.getHasLab() && !lesson2.getHasLab()) return false;
         else {
             //first lab by first
