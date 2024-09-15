@@ -56,6 +56,6 @@ public class ScheduleFilter implements Callable<List<List<Lesson>>> {
         return !(LessonFilterUtil.hasConflict(subSetList) ||
                 LessonFilterUtil.hasManyReligiousLessons(subSetList) ||
                 LessonFilterUtil.existsRepetition(subSetList) ||
-                LessonFilterUtil.hasUnit(5, subSetList)) ? subSetList : null;
+                LessonFilterUtil.hasNotUnit(5, subSetList)) ? subSetList : null;
     }
 }

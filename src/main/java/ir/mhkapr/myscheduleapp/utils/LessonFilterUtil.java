@@ -118,7 +118,7 @@ public class LessonFilterUtil {
         return lessonList.stream().map(Lesson::getName).distinct().count() != lessonList.size();
     }
 
-    public static Boolean hasUnit(int unitSum, List<Lesson> lessonList) {
-        return lessonList.stream().mapToInt(Lesson::getUnit).sum() == unitSum;
+    public static Boolean hasNotUnit(int unitSum, List<Lesson> lessonList) {
+        return lessonList.stream().mapToInt(Lesson::getUnit).sum() != unitSum;
     }
 }
